@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://mo0b0kcwph4j"]
+
+[ext_resource type="Script" uid="uid://dnwq30pu6f1dy" path="res://Main/main.gd" id="1_amygn"]
+[ext_resource type="Texture2D" uid="uid://ckmkigp2vshuc" path="res://Resourses/icon.svg" id="2_ps1la"]
+[ext_resource type="PackedScene" uid="uid://caht0gwfoctd0" path="res://Car/Car.tscn" id="3_6aewd"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_amygn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1423, 1482)
+scale = Vector2(38.875, 33.2188)
+texture = ExtResource("2_ps1la")
+
+[node name="Car" parent="." instance=ExtResource("3_6aewd")]
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+position = Vector2(789, -607)
+energy = 0.5
+blend_mode = 2
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+shadow_filter_smooth = 16.2
+height = 0.5

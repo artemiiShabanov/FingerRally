@@ -1,5 +1,11 @@
 extends CharacterBody2D
 
+
+# scenes
+
+const track_scene = preload("res://TireTracks/TireTrack.tscn")
+
+
 # signals
 
 signal hitted
@@ -12,9 +18,17 @@ signal surface_changed
 # nodes
 
 @onready var gear_timer = $"GearTimer"
-@onready var sprite = $AnimatedSprite2D
+@onready var sprite = $Sprite2D
 @onready var l_wheel = $LeftWheel
 @onready var r_wheel = $RightWheel
+@onready var smoke = $Smoke
+@onready var e_smoke = $EngineSmoke
+@onready var explosion = $Explosion
+
+@onready var fl = $FL
+@onready var fr = $FR
+@onready var bl = $BL
+@onready var br = $BR
 
 # car setup
 
@@ -31,7 +45,7 @@ signal surface_changed
 @export var max_speed_reverse = 250
 @export var gear_change_time = 0.3
 
-@export var max_health = 0.3
+@export var max_health = 4
 
 # constants
 
@@ -44,31 +58,53 @@ const friction_increase_rate = 3
 
 var surface: Surface
 var gear = 0
-
+var engine_on = true:
+	set(value):
+		engine_on = value
+		smoke.emitting = engine_on
 # private 
 
 var steer_angle
 var acceleration = Vector2.ZERO
 
-var engine_power = 0
+var _engine_power = 0
+var engine_power:
+	get:
+		return _engine_power if engine_on else 0
+	set(value):
+		_engine_power = value
+
 var next_gear = 0
 var is_changing_gear = false
 var drifting = false:
 	set(value):
 		if drifting != value:
 			if value:
-				drift_started.emit()
+				start_drift()
 			else:
-				drift_finished.emit()
+				stop_drift()
 		drifting = value
 
-var health
+var health:
+	set(value):
+		health = max(value, 0)
+		check_health()
+
+var tracks: Array
+var tracks_drift: Array
+
 
 # api
 
+
 func set_surface(_surface: Surface):
+	drifting = false
+	stop_track()
 	surface = _surface
 	surface_changed.emit()
+	if surface.track_intensity > 0:
+		start_track()
+
 
 # inner
 
@@ -76,10 +112,13 @@ func set_surface(_surface: Surface):
 func _ready() -> void:
 	health = max_health
 	check_health()
+	start_car_vibration()
 	gear_timer.wait_time = gear_change_time
+
 
 func _process(delta: float) -> void:
 	$ShadowSprite.global_position = global_position + Vector2(0, shadow_offset)
+
 
 func _physics_process(delta):
 	acceleration = Vector2.ZERO
@@ -100,9 +139,65 @@ func get_input():
 	if Input.is_action_pressed("steer_left"):
 		turn -= 1
 		p -= engine_power / 2
+	if Input.is_action_just_pressed("accelerate"):
+		health -= 1
 	acceleration = transform.x * p
 	steer_angle = turn * deg_to_rad(steering_angle)
 	update_wheels()
+
+
+# updates
+
+
+func start_car_vibration():
+	var tween = get_tree().create_tween()
+	var margin = 0.01 * (max_health - health) if health > 0 else 0.0
+	tween.tween_property(sprite, "scale", Vector2(1.0 + margin, 1.0 + margin), 0.2)
+	await tween.finished
+	stop_car_vibration()
+
+
+func stop_car_vibration():
+	var tween = get_tree().create_tween()
+	tween.tween_property(sprite, "scale", Vector2(1.0, 1.0), 0.2)
+	await tween.finished
+	start_car_vibration()
+
+
+func start_drift():
+	drift_started.emit()
+	var points = [bl, br, fl, fr]
+	for point in points:
+		var track = track_scene.instantiate()
+		add_child(track)
+		track.position = point.position
+		track.set_intensity(surface.track_drift_intensity)
+		track.start()
+		tracks_drift.append(track)
+
+
+func stop_drift():
+	drift_finished.emit()
+	for track in tracks_drift:
+		track.stop()
+	tracks_drift.clear()
+
+
+func start_track():
+	var points = [bl, br, fl, fr]
+	for point in points:
+		var track = track_scene.instantiate()
+		add_child(track)
+		track.position = point.position
+		track.set_intensity(surface.track_intensity)
+		track.start()
+		tracks.append(track)
+
+
+func stop_track():
+	for track in tracks:
+		track.stop()
+	tracks.clear()
 
 
 func update_wheels():
@@ -149,7 +244,10 @@ func calculate_steering(delta):
 	var new_heading = (front_wheel - rear_wheel).normalized()
 	var traction = surface.traction_slow
 	if velocity.length() > surface.slip_speed:
+		drifting = steer_angle != 0
 		traction = surface.traction_fast
+	else:
+		drifting = false
 	var d = new_heading.dot(velocity.normalized())
 	if d > 0:
 		velocity = velocity.lerp(new_heading * velocity.length(), traction * delta)
@@ -169,17 +267,22 @@ func check_health():
 	var health_2 = max_health - 2
 	match health:
 		max_health:
-			sprite.animation = "full_health"
+			e_smoke.emitting = false
+			e_smoke.amount = 0
 		health_1:
-			sprite.animation = "health-1"
+			e_smoke.emitting = true
+			e_smoke.amount = 10
 		health_2:
-			sprite.animation = "health-2"
+			e_smoke.emitting = true
+			e_smoke.amount = 20
 		0:
-			sprite.animation = "boom"
-			await sprite.animation_finished
+			e_smoke.emitting = false
+			explosion.emitting = true
+			engine_on = false
 			died.emit()
 		_:
-			sprite.animation = "health-3"
+			e_smoke.emitting = true
+			e_smoke.amount = 30
 
 
 func _on_gear_timer_timeout() -> void:

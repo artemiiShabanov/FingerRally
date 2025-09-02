@@ -1,45 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://caht0gwfoctd0"]
+[gd_scene load_steps=10 format=3 uid="uid://caht0gwfoctd0"]
 
 [ext_resource type="Script" uid="uid://dbopdd63uxn0b" path="res://Car/car.gd" id="1_v636r"]
 [ext_resource type="Texture2D" uid="uid://cm7rji4j6rras" path="res://Resourses/Assets/wheel.png" id="2_argwm"]
 [ext_resource type="Texture2D" uid="uid://cqor43mjmo3x6" path="res://Resourses/Assets/car.png" id="2_v636r"]
 [ext_resource type="Texture2D" uid="uid://bmkyuk46v74bp" path="res://Resourses/Assets/shadow.png" id="2_vkism"]
 [ext_resource type="Texture2D" uid="uid://detr86dc8xago" path="res://Resourses/Assets/specular.png" id="5_vkism"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v636r"]
-radius = 39.0
-height = 164.0
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_32r3e"]
-animations = [{
-"frames": [],
-"loop": false,
-"name": &"boom",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_v636r")
-}],
-"loop": true,
-"name": &"full_health",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"health-1",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"health-2",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"health-3",
-"speed": 5.0
-}]
+[ext_resource type="PackedScene" uid="uid://c0rf0eyhbug21" path="res://Effects/smoke.tscn" id="6_plnjs"]
+[ext_resource type="PackedScene" uid="uid://dtol5ktkql3hi" path="res://Effects/Explosion.tscn" id="7_jcsow"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_vkism"]
 diffuse_texture = ExtResource("2_v636r")
@@ -47,22 +14,40 @@ normal_texture = ExtResource("5_vkism")
 specular_texture = ExtResource("5_vkism")
 specular_shininess = 0.5
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v636r"]
+radius = 36.0
+height = 166.0
+
 [node name="Car" type="CharacterBody2D"]
 script = ExtResource("1_v636r")
 
+[node name="EngineSmoke" parent="." instance=ExtResource("6_plnjs")]
+z_index = 2
+position = Vector2(45, 0)
+amount = 1
+
 [node name="ShadowSprite" type="Sprite2D" parent="."]
+z_index = 1
 position = Vector2(-20, 0)
 texture = ExtResource("2_vkism")
 
 [node name="LeftWheel" type="Sprite2D" parent="."]
-position = Vector2(52, -36)
+z_index = 1
+position = Vector2(45.16, -35)
 texture = ExtResource("2_argwm")
 
 [node name="RightWheel" type="Sprite2D" parent="."]
-position = Vector2(52, 34)
+z_index = 1
+position = Vector2(45.16, 35)
 texture = ExtResource("2_argwm")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(-7, 1)
+texture = SubResource("CanvasTexture_vkism")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5, 0)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_v636r")
 
@@ -70,13 +55,23 @@ shape = SubResource("CapsuleShape2D_v636r")
 
 [node name="GearTimer" type="Timer" parent="."]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-sprite_frames = SubResource("SpriteFrames_32r3e")
-animation = &"full_health"
+[node name="BL" type="Marker2D" parent="."]
+position = Vector2(-45, -38)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1, 0)
-texture = SubResource("CanvasTexture_vkism")
+[node name="BR" type="Marker2D" parent="."]
+position = Vector2(-45, 38)
+
+[node name="FL" type="Marker2D" parent="."]
+position = Vector2(45, -37)
+
+[node name="FR" type="Marker2D" parent="."]
+position = Vector2(45, 37)
+
+[node name="Smoke" parent="." instance=ExtResource("6_plnjs")]
+position = Vector2(-96, 22)
+
+[node name="Explosion" parent="." instance=ExtResource("7_jcsow")]
+z_index = 3
+position = Vector2(45, 0)
 
 [connection signal="timeout" from="GearTimer" to="." method="_on_gear_timer_timeout"]

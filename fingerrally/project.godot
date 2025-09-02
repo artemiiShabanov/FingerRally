@@ -13,7 +13,7 @@ config_version=5
 config/name="FingerRally"
 run/main_scene="uid://mo0b0kcwph4j"
 config/features=PackedStringArray("4.4", "Mobile")
-config/icon="res://icon.svg"
+config/icon="res://Resourses/icon.svg"
 
 [display]
 

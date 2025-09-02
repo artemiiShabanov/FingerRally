@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6htrvkxw1ahj"]
+
+[ext_resource type="Script" uid="uid://bdnc5e4m4s6xu" path="res://TireTracks/tire_track.gd" id="1_4gxyx"]
+
+[node name="TireTrack" type="Node2D"]
+script = ExtResource("1_4gxyx")
+
+[node name="Line2D" type="Line2D" parent="."]
+default_color = Color(0, 0, 0, 1)
+joint_mode = 2

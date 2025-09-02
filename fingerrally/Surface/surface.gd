@@ -4,6 +4,8 @@ var slip_speed = 400  # Speed where traction is reduced
 var traction_fast = 0.3  # High-speed traction
 var traction_slow = 0.7  # Low-speed traction
 var friction = -0.9
+var track_intensity = 0.0
+var track_drift_intensity = 0.0
 
 enum TYPE { ASPHALT, DIRT, GRASS, SAND, SNOW, ICE, GRAVEL }
 
@@ -15,6 +17,8 @@ static func surface_for_type(type: Surface.TYPE) -> Surface:
 			s.traction_fast = 0.9
 			s.traction_slow = 1.0
 			s.friction = -0.1
+			s.track_intensity = 0.05
+			s.track_drift_intensity = 0.1
 		Surface.TYPE.DIRT:
 			s.slip_speed = 400
 			s.traction_fast = 0.5
