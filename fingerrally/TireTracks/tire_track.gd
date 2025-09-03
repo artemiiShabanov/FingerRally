@@ -17,7 +17,7 @@ var time_since_start: float:
 func _ready() -> void:
 	line.top_level = true
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if isStarted:
 		emit_track()
 	elif time_since_start > trail_duration:

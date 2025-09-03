@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://caht0gwfoctd0"]
+[gd_scene load_steps=11 format=3 uid="uid://caht0gwfoctd0"]
 
 [ext_resource type="Script" uid="uid://dbopdd63uxn0b" path="res://Car/car.gd" id="1_v636r"]
 [ext_resource type="Texture2D" uid="uid://cm7rji4j6rras" path="res://Resourses/Assets/wheel.png" id="2_argwm"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://detr86dc8xago" path="res://Resourses/Assets/specular.png" id="5_vkism"]
 [ext_resource type="PackedScene" uid="uid://c0rf0eyhbug21" path="res://Effects/smoke.tscn" id="6_plnjs"]
 [ext_resource type="PackedScene" uid="uid://dtol5ktkql3hi" path="res://Effects/Explosion.tscn" id="7_jcsow"]
+[ext_resource type="PackedScene" uid="uid://xbnhisltej6w" path="res://Effects/Dust.tscn" id="8_dc25y"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_vkism"]
 diffuse_texture = ExtResource("2_v636r")
@@ -20,6 +21,16 @@ height = 166.0
 
 [node name="Car" type="CharacterBody2D"]
 script = ExtResource("1_v636r")
+
+[node name="Dust2" parent="." instance=ExtResource("8_dc25y")]
+z_index = 1
+position = Vector2(-45, -38)
+emitting = false
+
+[node name="Dust" parent="." instance=ExtResource("8_dc25y")]
+z_index = 1
+position = Vector2(-45, 38)
+emitting = false
 
 [node name="EngineSmoke" parent="." instance=ExtResource("6_plnjs")]
 z_index = 2
@@ -50,8 +61,6 @@ texture = SubResource("CanvasTexture_vkism")
 position = Vector2(-5, 0)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_v636r")
-
-[node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="GearTimer" type="Timer" parent="."]
 

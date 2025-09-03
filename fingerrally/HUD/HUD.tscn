@@ -1,0 +1,148 @@
+[gd_scene load_steps=18 format=3 uid="uid://dptqyxr68wcp8"]
+
+[ext_resource type="Script" uid="uid://drxw5eyy4c6h" path="res://HUD/hud.gd" id="1_f31rt"]
+[ext_resource type="Texture2D" uid="uid://ba5axlra7yjbb" path="res://Resourses/Assets/speed_base.png" id="2_b7ubu"]
+[ext_resource type="Texture2D" uid="uid://b2lvda6emgpn7" path="res://Resourses/Assets/speed_base_fast.png" id="3_amwvk"]
+[ext_resource type="Texture2D" uid="uid://br42c5qpynkoq" path="res://Resourses/Assets/speed_arrow.png" id="3_ja1d4"]
+[ext_resource type="FontFile" uid="uid://cris4n1vsstt0" path="res://Resourses/Fonts/m5x7.ttf" id="5_aa5tu"]
+[ext_resource type="Texture2D" uid="uid://c01ekko81wyhx" path="res://Resourses/Assets/restart.png" id="6_6i5cd"]
+[ext_resource type="Texture2D" uid="uid://x71x57gx5jdw" path="res://Resourses/Assets/play.png" id="6_lkt0t"]
+[ext_resource type="Texture2D" uid="uid://c3uquj0c4tk4f" path="res://Resourses/Assets/pause.png" id="7_6i5cd"]
+
+[sub_resource type="Gradient" id="Gradient_6i5cd"]
+offsets = PackedFloat32Array(0.005, 0.225)
+colors = PackedColorArray(0, 0, 0, 0.411765, 0, 0, 0, 0.133333)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t1yhm"]
+gradient = SubResource("Gradient_6i5cd")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6i5cd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t1yhm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pd2p5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fwgky"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7odlb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_huo54"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lkt0t"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f31rt")
+
+[node name="Overlay" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_t1yhm")
+
+[node name="TopContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+offset_right = 264.0
+offset_bottom = 200.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="TopContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SpeedBase" type="TextureRect" parent="TopContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_b7ubu")
+
+[node name="SpeedBaseFast" type="TextureRect" parent="TopContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("3_amwvk")
+
+[node name="SpeedArrow" type="TextureRect" parent="TopContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("3_ja1d4")
+
+[node name="MarginContainer2" type="MarginContainer" parent="TopContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -50
+
+[node name="SpeedLabel" type="Label" parent="TopContainer/HBoxContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.853917, 0.853917, 0.853917, 1)
+theme_override_fonts/font = ExtResource("5_aa5tu")
+theme_override_font_sizes/font_size = 70
+text = "100"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="TopContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = -20
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="TopContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="TopContainer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_aa5tu")
+theme_override_font_sizes/font_size = 120
+text = "1000"
+
+[node name="MaxScoreLabel" type="Label" parent="TopContainer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("5_aa5tu")
+theme_override_font_sizes/font_size = 60
+text = "1000
+"
+
+[node name="ButtonsContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ButtonsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="RestartButton" type="Button" parent="ButtonsContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6i5cd")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_t1yhm")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_pd2p5")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_fwgky")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_7odlb")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_huo54")
+icon = ExtResource("6_6i5cd")
+
+[node name="PauseButton" type="CheckButton" parent="ButtonsContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lkt0t")
+theme_override_icons/checked = ExtResource("6_lkt0t")
+theme_override_icons/unchecked = ExtResource("7_6i5cd")
+
+[connection signal="pressed" from="ButtonsContainer/HBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="toggled" from="ButtonsContainer/HBoxContainer/PauseButton" to="." method="_on_check_button_toggled"]

@@ -13,7 +13,17 @@ config_version=5
 config/name="FingerRally"
 run/main_scene="uid://mo0b0kcwph4j"
 config/features=PackedStringArray("4.4", "Mobile")
-config/icon="res://Resourses/icon.svg"
+boot_splash/bg_color=Color(0.568627, 0.568627, 0.568627, 1)
+boot_splash/use_filter=false
+boot_splash/image="uid://bi5rv3rrff5v6"
+config/icon="uid://c328bwueoetjd"
+
+[autoload]
+
+Storage="*res://Global/storage.gd"
+SoundPlayer="*res://Global/sound_player.gd"
+Player="*res://Global/player.gd"
+Vibration="*res://Global/vibration.gd"
 
 [display]
 

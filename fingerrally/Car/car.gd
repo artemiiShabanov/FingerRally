@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+class_name Car
 
 # scenes
 
@@ -10,10 +11,10 @@ const track_scene = preload("res://TireTracks/TireTrack.tscn")
 
 signal hitted
 signal died
-signal gear_changed
+signal gear_changed(gear)
 signal drift_started
 signal drift_finished
-signal surface_changed
+signal engine_on_changed(on)
 
 # nodes
 
@@ -24,6 +25,7 @@ signal surface_changed
 @onready var smoke = $Smoke
 @onready var e_smoke = $EngineSmoke
 @onready var explosion = $Explosion
+@onready var dusts = [$Dust, $Dust2]
 
 @onready var fl = $FL
 @onready var fr = $FR
@@ -39,7 +41,7 @@ signal surface_changed
 
 @export var gear_power = [0, 300, 600, 1100, 1500]
 @export var gear_min_speed = [-1, 0, 200, 350, 480]
-@export var gear_max_speed = [0, 370, 560, 785, 10000000]
+@export var gear_max_speed = [0, 370, 560, 785, 1500]
 
 @export var braking = -450
 @export var max_speed_reverse = 250
@@ -51,18 +53,23 @@ signal surface_changed
 
 const drag = -0.0015
 const min_speed = 5
-const friction_increase_speed = 100
+const friction_increase_speed = 200
 const friction_increase_rate = 3
+const max_gear = 4
 
 # context
 
 var surface: Surface
 var gear = 0
-var engine_on = true:
+var engine_on = false:
 	set(value):
-		engine_on = value
+		var new_value = value if health > 0 else false
+		if engine_on != new_value:
+			engine_on_changed.emit(new_value)
+		engine_on = new_value
 		smoke.emitting = engine_on
-# private 
+
+# private
 
 var steer_angle
 var acceleration = Vector2.ZERO
@@ -93,21 +100,22 @@ var health:
 var tracks: Array
 var tracks_drift: Array
 
-
 # api
 
+func start():
+	engine_on = true
 
 func set_surface(_surface: Surface):
 	drifting = false
 	stop_track()
 	surface = _surface
-	surface_changed.emit()
+	
 	if surface.track_intensity > 0:
 		start_track()
-
+	for dust in dusts:
+		dust.color = surface.dust_color
 
 # inner
-
 
 func _ready() -> void:
 	health = max_health
@@ -116,7 +124,7 @@ func _ready() -> void:
 	gear_timer.wait_time = gear_change_time
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	$ShadowSprite.global_position = global_position + Vector2(0, shadow_offset)
 
 
@@ -140,26 +148,23 @@ func get_input():
 		turn -= 1
 		p -= engine_power / 2
 	if Input.is_action_just_pressed("accelerate"):
-		health -= 1
+		apply_hit()
 	acceleration = transform.x * p
 	steer_angle = turn * deg_to_rad(steering_angle)
 	update_wheels()
 
-
 # updates
-
 
 func start_car_vibration():
 	var tween = get_tree().create_tween()
-	var margin = 0.01 * (max_health - health) if health > 0 else 0.0
-	tween.tween_property(sprite, "scale", Vector2(1.0 + margin, 1.0 + margin), 0.2)
+	tween.tween_property(sprite, "scale", Vector2(1.01, 1.01), 0.3)
 	await tween.finished
 	stop_car_vibration()
 
 
 func stop_car_vibration():
 	var tween = get_tree().create_tween()
-	tween.tween_property(sprite, "scale", Vector2(1.0, 1.0), 0.2)
+	tween.tween_property(sprite, "scale", Vector2(1.0, 1.0), 0.3)
 	await tween.finished
 	start_car_vibration()
 
@@ -174,6 +179,8 @@ func start_drift():
 		track.set_intensity(surface.track_drift_intensity)
 		track.start()
 		tracks_drift.append(track)
+	for dust in dusts:
+		dust.emitting = true
 
 
 func stop_drift():
@@ -181,6 +188,8 @@ func stop_drift():
 	for track in tracks_drift:
 		track.stop()
 	tracks_drift.clear()
+	for dust in dusts:
+		dust.emitting = false
 
 
 func start_track():
@@ -210,15 +219,15 @@ func update_wheels():
 func check_gear_speed():
 	if is_changing_gear:
 		return
-	var min_speed = gear_min_speed[gear]
-	var max_speed = gear_max_speed[gear]
-	if velocity.length() < min_speed:
+	var g_min_speed = gear_min_speed[gear]
+	var g_max_speed = gear_max_speed[gear]
+	if velocity.length() < g_min_speed:
 		next_gear = gear - 1
-	if velocity.length() >= max_speed:
+	if velocity.length() >= g_max_speed:
 		next_gear = gear + 1
 	if next_gear != gear:
 		is_changing_gear = true
-		gear_changed.emit()
+		gear_changed.emit(next_gear)
 		engine_power = 0
 		gear_timer.start()
 
@@ -259,7 +268,6 @@ func calculate_steering(delta):
 func apply_hit():
 	hitted.emit()
 	health -= 1
-	check_health()
 
 
 func check_health():
@@ -268,7 +276,6 @@ func check_health():
 	match health:
 		max_health:
 			e_smoke.emitting = false
-			e_smoke.amount = 0
 		health_1:
 			e_smoke.emitting = true
 			e_smoke.amount = 10

@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://mo0b0kcwph4j"]
+[gd_scene load_steps=7 format=3 uid="uid://mo0b0kcwph4j"]
 
 [ext_resource type="Script" uid="uid://dnwq30pu6f1dy" path="res://Main/main.gd" id="1_amygn"]
-[ext_resource type="Texture2D" uid="uid://ckmkigp2vshuc" path="res://Resourses/icon.svg" id="2_ps1la"]
 [ext_resource type="PackedScene" uid="uid://caht0gwfoctd0" path="res://Car/Car.tscn" id="3_6aewd"]
+[ext_resource type="Script" uid="uid://c4nldse6mv15s" path="res://Main/main_camera.gd" id="4_ps1la"]
+[ext_resource type="PackedScene" uid="uid://be3enq6i72qc4" path="res://Effects/Wind.tscn" id="5_6aewd"]
+[ext_resource type="PackedScene" uid="uid://dptqyxr68wcp8" path="res://HUD/HUD.tscn" id="6_u2i7p"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6aewd"]
+load_path = "res://.godot/imported/icon.svg-e7fc03c1ae06dd5a854160d211d9f130.ctex"
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_amygn")
@@ -10,9 +15,13 @@ script = ExtResource("1_amygn")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1423, 1482)
 scale = Vector2(38.875, 33.2188)
-texture = ExtResource("2_ps1la")
+texture = SubResource("CompressedTexture2D_6aewd")
 
 [node name="Car" parent="." instance=ExtResource("3_6aewd")]
+rotation = -1.5708
+
+[node name="MainCamera" type="Camera2D" parent="Car"]
+script = ExtResource("4_ps1la")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
 position = Vector2(789, -607)
@@ -22,3 +31,20 @@ shadow_enabled = true
 shadow_color = Color(0, 0, 0, 1)
 shadow_filter_smooth = 16.2
 height = 0.5
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hud" parent="CanvasLayer" node_paths=PackedStringArray("car") instance=ExtResource("6_u2i7p")]
+car = NodePath("../../Car")
+
+[node name="Wind" parent="CanvasLayer" instance=ExtResource("5_6aewd")]
+rotation = -1.5708
+
+[connection signal="died" from="Car" to="." method="_on_car_died"]
+[connection signal="drift_finished" from="Car" to="." method="_on_car_drift_finished"]
+[connection signal="drift_started" from="Car" to="." method="_on_car_drift_started"]
+[connection signal="engine_on_changed" from="Car" to="." method="_on_car_engine_on_changed"]
+[connection signal="gear_changed" from="Car" to="." method="_on_car_gear_changed"]
+[connection signal="hitted" from="Car" to="." method="_on_car_hitted"]
+[connection signal="pause" from="CanvasLayer/Hud" to="." method="_on_hud_pause"]
+[connection signal="restart" from="CanvasLayer/Hud" to="." method="_on_hud_restart"]

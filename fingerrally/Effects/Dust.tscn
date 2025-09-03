@@ -1,0 +1,44 @@
+[gd_scene load_steps=9 format=3 uid="uid://xbnhisltej6w"]
+
+[ext_resource type="Texture2D" uid="uid://co42dmodncnhs" path="res://Resourses/Assets/dust.png" id="1_qcqu4"]
+[ext_resource type="Script" uid="uid://n2y7e7cwysh6" path="res://Effects/dust.gd" id="2_8c0lx"]
+
+[sub_resource type="Gradient" id="Gradient_uytk8"]
+colors = PackedColorArray(1, 1, 1, 0.435294, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gou8x"]
+gradient = SubResource("Gradient_uytk8")
+
+[sub_resource type="CurveTexture" id="CurveTexture_6cai5"]
+
+[sub_resource type="Curve" id="Curve_4ewde"]
+_data = [Vector2(0.0185567, 0), 0.0, 0.0, 0, 0, Vector2(0.2, 0.301222), 2.41598, 2.41598, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_8lgk5"]
+curve = SubResource("Curve_4ewde")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h41vj"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(20, 20, 1)
+spread = 78.875
+initial_velocity_min = 1.3
+initial_velocity_max = 1.3
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -10.0
+radial_accel_max = 10.0
+radial_accel_curve = SubResource("CurveTexture_6cai5")
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = -2.23517e-06
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_8lgk5")
+color_ramp = SubResource("GradientTexture1D_gou8x")
+
+[node name="Dust" type="GPUParticles2D"]
+amount = 50
+texture = ExtResource("1_qcqu4")
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_h41vj")
+script = ExtResource("2_8c0lx")
+color = Color(1, 1, 0, 1)
