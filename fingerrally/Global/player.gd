@@ -36,6 +36,8 @@ func set_gear(_gear: int):
 
 
 func moved(new_y: float):
+	print(checkpoint)
+	print(new_y)
 	var passed = int(new_y) - checkpoint
 	current_meters += get_meters(passed)
 	current_score += get_meters(passed) * get_multiplier()

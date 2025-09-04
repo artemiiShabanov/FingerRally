@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://be3enq6i72qc4"]
+[gd_scene load_steps=14 format=3 uid="uid://be3enq6i72qc4"]
 
 [sub_resource type="Gradient" id="Gradient_nncoo"]
 offsets = PackedFloat32Array(0, 0.502079, 1)
@@ -10,7 +10,13 @@ width = 15
 height = 200
 fill_to = Vector2(0, 1)
 
+[sub_resource type="Curve" id="Curve_nncoo"]
+_limits = [0.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="CurveTexture" id="CurveTexture_qpvvo"]
+curve = SubResource("Curve_nncoo")
 
 [sub_resource type="Gradient" id="Gradient_gmop1"]
 colors = PackedColorArray(1, 1, 1, 0.0666667, 1, 1, 1, 1)
@@ -25,7 +31,13 @@ colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0.286275, 1, 1, 1, 0.364706, 1, 1
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_fkrtu"]
 gradient = SubResource("Gradient_1ub7f")
 
+[sub_resource type="Curve" id="Curve_qpvvo"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="CurveTexture" id="CurveTexture_gmop1"]
+curve = SubResource("Curve_qpvvo")
 
 [sub_resource type="Curve" id="Curve_lkxis"]
 _limits = [-200.0, 200.0, 0.0, 1.0]

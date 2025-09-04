@@ -14,12 +14,14 @@ var once_sounds = {
 
 enum LASTING_SOUND {
 	MUSIC,
+	AMBIENT,
 	ENGINE,
 	DRIFT
 }
 
 var lasting_sounds = {
 	LASTING_SOUND.MUSIC: preload("res://Resourses/Music/Wild Horizon.mp3"),
+	LASTING_SOUND.AMBIENT: preload("res://Resourses/Music/Wild Horizon.mp3"),
 	LASTING_SOUND.ENGINE: preload("res://Resourses/Sounds/engine.mp3"),
 	LASTING_SOUND.DRIFT: preload("res://Resourses/Sounds/drift.mp3"),
 }

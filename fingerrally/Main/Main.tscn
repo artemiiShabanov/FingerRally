@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://dptqyxr68wcp8" path="res://HUD/HUD.tscn" id="6_u2i7p"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6aewd"]
-load_path = "res://.godot/imported/icon.svg-e7fc03c1ae06dd5a854160d211d9f130.ctex"
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_amygn")
@@ -46,5 +45,7 @@ rotation = -1.5708
 [connection signal="engine_on_changed" from="Car" to="." method="_on_car_engine_on_changed"]
 [connection signal="gear_changed" from="Car" to="." method="_on_car_gear_changed"]
 [connection signal="hitted" from="Car" to="." method="_on_car_hitted"]
+[connection signal="counted_down" from="CanvasLayer/Hud" to="." method="_on_hud_counted_down"]
 [connection signal="pause" from="CanvasLayer/Hud" to="." method="_on_hud_pause"]
 [connection signal="restart" from="CanvasLayer/Hud" to="." method="_on_hud_restart"]
+[connection signal="start_pressed" from="CanvasLayer/Hud" to="." method="_on_hud_start_pressed"]

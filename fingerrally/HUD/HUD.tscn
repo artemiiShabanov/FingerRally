@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dptqyxr68wcp8"]
+[gd_scene load_steps=29 format=3 uid="uid://dptqyxr68wcp8"]
 
 [ext_resource type="Script" uid="uid://drxw5eyy4c6h" path="res://HUD/hud.gd" id="1_f31rt"]
 [ext_resource type="Texture2D" uid="uid://ba5axlra7yjbb" path="res://Resourses/Assets/speed_base.png" id="2_b7ubu"]
@@ -16,6 +16,28 @@ colors = PackedColorArray(0, 0, 0, 0.411765, 0, 0, 0, 0.133333)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_t1yhm"]
 gradient = SubResource("Gradient_6i5cd")
 fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ktoim"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_33tmu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kcgbh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ihvjp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_33ejm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fjfvf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_65vjf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2gu3h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iob2k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g452r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ba18x"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6i5cd"]
 
@@ -48,6 +70,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_t1yhm")
+
+[node name="TapToStartButton" type="Button" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ktoim")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_33tmu")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_kcgbh")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_ihvjp")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_33ejm")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_fjfvf")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_65vjf")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_2gu3h")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_iob2k")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_g452r")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ba18x")
+text = "
+"
 
 [node name="TopContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -93,7 +136,7 @@ horizontal_alignment = 1
 [node name="MarginContainer" type="MarginContainer" parent="TopContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = -20
+theme_override_constants/margin_top = -10
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="TopContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
@@ -128,7 +171,6 @@ layout_mode = 2
 theme_override_constants/separation = 20
 
 [node name="RestartButton" type="Button" parent="ButtonsContainer/HBoxContainer"]
-visible = false
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_6i5cd")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_t1yhm")
@@ -144,5 +186,31 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_lkt0t")
 theme_override_icons/checked = ExtResource("6_lkt0t")
 theme_override_icons/unchecked = ExtResource("7_6i5cd")
 
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CountdownLabel" type="Label" parent="CenterContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_aa5tu")
+theme_override_font_sizes/font_size = 600
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TapToStartLabel" type="Label" parent="CenterContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_aa5tu")
+theme_override_font_sizes/font_size = 300
+text = "TAP
+TO
+START"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Overlay/TapToStartButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="ButtonsContainer/HBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="toggled" from="ButtonsContainer/HBoxContainer/PauseButton" to="." method="_on_check_button_toggled"]

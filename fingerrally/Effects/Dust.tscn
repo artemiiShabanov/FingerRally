@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://xbnhisltej6w"]
+[gd_scene load_steps=10 format=3 uid="uid://xbnhisltej6w"]
 
 [ext_resource type="Texture2D" uid="uid://co42dmodncnhs" path="res://Resourses/Assets/dust.png" id="1_qcqu4"]
 [ext_resource type="Script" uid="uid://n2y7e7cwysh6" path="res://Effects/dust.gd" id="2_8c0lx"]
@@ -9,7 +9,13 @@ colors = PackedColorArray(1, 1, 1, 0.435294, 1, 1, 1, 0)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_gou8x"]
 gradient = SubResource("Gradient_uytk8")
 
+[sub_resource type="Curve" id="Curve_qcqu4"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="CurveTexture" id="CurveTexture_6cai5"]
+curve = SubResource("Curve_qcqu4")
 
 [sub_resource type="Curve" id="Curve_4ewde"]
 _data = [Vector2(0.0185567, 0), 0.0, 0.0, 0, 0, Vector2(0.2, 0.301222), 2.41598, 2.41598, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]

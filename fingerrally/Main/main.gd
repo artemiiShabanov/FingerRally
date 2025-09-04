@@ -3,21 +3,37 @@ extends Node2D
 
 @onready var car = $Car
 @onready var camera = $Car/MainCamera
+@onready var hud = $CanvasLayer/Hud
 
 var surface_type: Surface.TYPE
 var prev_y = 0
 
 func _ready() -> void:
+	SoundPlayer.start_lasting_sound(SoundPlayer.LASTING_SOUND.AMBIENT)
 	change_surface(Surface.TYPE.ASPHALT)
+
+func _process(_delta: float) -> void:
+	if car.health > 0:
+		var pos = -car.global_position.y
+		if pos - prev_y > Player.CHECKPOINT_DIFF:
+			Player.moved(pos)
+			prev_y = pos
+
+func start():
+	prev_y = 0
 	SoundPlayer.start_lasting_sound(SoundPlayer.LASTING_SOUND.MUSIC)
 	car.start()
 
+func finish():
+	Player.finish()
+	Player.reset()
+	SoundPlayer.stop_lasting_sound(SoundPlayer.LASTING_SOUND.MUSIC)
 
-func _process(_delta: float) -> void:
-	var pos = -car.global_position.y
-	if pos - prev_y > Player.CHECKPOINT_DIFF:
-		Player.moved(pos)
-		prev_y = pos
+func restart(with_timer: bool):
+	finish()
+	if with_timer:
+		await get_tree().create_timer(3).timeout
+	get_tree().reload_current_scene()
 
 
 func change_surface(new_type: Surface.TYPE):
@@ -35,14 +51,12 @@ func _on_car_hitted() -> void:
 
 
 func _on_car_gear_changed(next_gear) -> void:
-	SoundPlayer.play_once_sound(SoundPlayer.ONCE_SOUND.GEAR_CHANGE)
+	#SoundPlayer.play_once_sound(SoundPlayer.ONCE_SOUND.GEAR_CHANGE)
 	Vibration.vibrate(Vibration.TYPE.GEAR_CHANGE)
 	Player.set_gear(next_gear)
 
-
 func _on_car_died() -> void:
-	Player.finish()
-
+	restart(true)
 
 func _on_car_engine_on_changed(on: bool) -> void:
 	if on:
@@ -67,5 +81,14 @@ func _on_car_drift_finished() -> void:
 
 
 func _on_hud_restart() -> void:
-	Player.finish()
-	get_tree().reload_current_scene()
+	get_tree().paused = false
+	restart(false)
+
+
+func _on_hud_counted_down() -> void:
+	hud.activate()
+	start()
+
+
+func _on_hud_start_pressed() -> void:
+	hud.start_countdown()
