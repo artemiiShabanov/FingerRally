@@ -38,7 +38,7 @@ func restart(with_timer: bool):
 
 func change_surface(new_type: Surface.TYPE):
 	SoundPlayer.stop_surface_sound(surface_type)
-	SoundPlayer.start_surface_sound(new_type)
+	#SoundPlayer.start_surface_sound(new_type)
 	surface_type = new_type
 	var surface = Surface.surface_for_type(new_type)
 	car.set_surface(surface)

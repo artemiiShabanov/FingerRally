@@ -7,7 +7,7 @@ enum ONCE_SOUND {
 }
 
 var once_sounds = {
-	ONCE_SOUND.COUNTDOWN: preload("res://Resourses/Music/Wild Horizon.mp3"),
+	ONCE_SOUND.COUNTDOWN: preload("res://Resourses/Sounds/321.mp3"),
 	ONCE_SOUND.GEAR_CHANGE: preload("res://Resourses/Sounds/gear.mp3"),
 	ONCE_SOUND.HIT: preload("res://Resourses/Sounds/hit.mp3"),
 }
@@ -21,7 +21,7 @@ enum LASTING_SOUND {
 
 var lasting_sounds = {
 	LASTING_SOUND.MUSIC: preload("res://Resourses/Music/Wild Horizon.mp3"),
-	LASTING_SOUND.AMBIENT: preload("res://Resourses/Music/Wild Horizon.mp3"),
+	LASTING_SOUND.AMBIENT: preload("res://Resourses/Sounds/ambient.mp3"),
 	LASTING_SOUND.ENGINE: preload("res://Resourses/Sounds/engine.mp3"),
 	LASTING_SOUND.DRIFT: preload("res://Resourses/Sounds/drift.mp3"),
 }
