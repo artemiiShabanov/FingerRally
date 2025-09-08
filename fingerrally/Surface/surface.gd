@@ -8,7 +8,7 @@ var track_intensity = 0.0
 var track_drift_intensity = 0.0
 var dust_color: Color = Color.WHITE
 
-enum TYPE { ASPHALT, DIRT, GRASS, SAND, SNOW, ICE, GRAVEL }
+enum TYPE { ASPHALT, DIRT, SAND, SNOW, GRAVEL }
 
 static func surface_for_type(type: Surface.TYPE) -> Surface:
 	var s = Surface.new()
@@ -26,11 +26,6 @@ static func surface_for_type(type: Surface.TYPE) -> Surface:
 			s.traction_fast = 0.5
 			s.traction_slow = 0.7
 			s.friction = -0.5
-		Surface.TYPE.GRASS:
-			s.slip_speed = 400
-			s.traction_fast = 0.6
-			s.traction_slow = 0.2
-			s.friction = -0.3
 		Surface.TYPE.SAND:
 			s.slip_speed = 400
 			s.traction_fast = 0.5
@@ -41,11 +36,6 @@ static func surface_for_type(type: Surface.TYPE) -> Surface:
 			s.traction_fast = 0.7
 			s.traction_slow = 0.2
 			s.friction = -0.5
-		Surface.TYPE.ICE:
-			s.slip_speed = 400
-			s.traction_fast = 0.9
-			s.traction_slow = 0.1
-			s.friction = -0.3
 		Surface.TYPE.GRAVEL:
 			s.slip_speed = 400
 			s.traction_fast = 0.5

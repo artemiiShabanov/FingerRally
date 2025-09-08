@@ -29,10 +29,8 @@ var lasting_sounds = {
 var surface_sounds = {
 	Surface.TYPE.ASPHALT: preload("res://Resourses/Music/Wild Horizon.mp3"),
 	Surface.TYPE.DIRT: preload("res://Resourses/Music/Wild Horizon.mp3"),
-	Surface.TYPE.GRASS: preload("res://Resourses/Music/Wild Horizon.mp3"),
 	Surface.TYPE.SAND: preload("res://Resourses/Music/Wild Horizon.mp3"),
 	Surface.TYPE.SNOW: preload("res://Resourses/Music/Wild Horizon.mp3"),
-	Surface.TYPE.ICE: preload("res://Resourses/Music/Wild Horizon.mp3"),
 	Surface.TYPE.GRAVEL: preload("res://Resourses/Music/Wild Horizon.mp3"),
 }
 

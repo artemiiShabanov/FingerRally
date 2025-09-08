@@ -20,6 +20,7 @@ radius = 36.0
 height = 166.0
 
 [node name="Car" type="CharacterBody2D"]
+position = Vector2(1, 0)
 script = ExtResource("1_v636r")
 
 [node name="Dust2" parent="." instance=ExtResource("8_dc25y")]

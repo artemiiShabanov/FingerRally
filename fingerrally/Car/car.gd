@@ -57,6 +57,12 @@ const friction_increase_speed = 200
 const friction_increase_rate = 3
 const max_gear = 4
 
+const dead_angle_from = 00
+const dead_angle_to = 180
+const dead_angle_middle = 90
+const return_angle_from = -10
+const return_angle_to = -170
+
 # context
 
 var surface: Surface
@@ -150,8 +156,23 @@ func get_input():
 	if Input.is_action_just_pressed("accelerate"):
 		apply_hit()
 	acceleration = transform.x * p
+
+	turn = correct_turn(turn)
 	steer_angle = turn * deg_to_rad(steering_angle)
 	update_wheels()
+
+
+func correct_turn(turn: float) -> float:
+	var r = rad_to_deg(global_rotation)
+	if r > dead_angle_from and r <= dead_angle_middle:
+		turn = -1
+	elif r < dead_angle_to and r > dead_angle_middle:
+		turn = 1
+	elif r <= dead_angle_from and r > return_angle_from and turn == 0:
+		turn = -1
+	elif (r >= dead_angle_to or r < return_angle_to) and turn == 0:
+		turn = 1
+	return turn
 
 # updates
 
