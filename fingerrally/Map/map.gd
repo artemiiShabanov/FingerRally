@@ -3,10 +3,10 @@ extends Node2D
 signal on_surface_changed(prev, now)
 
 @export var car: Car
-@export var start_surface_type: Surface.TYPE
+#@export var start_surface_type: Surface.TYPE
 
 const segment_pool_size = 3
-const segment_size = Vector2(1000, 2000)
+const segment_size = Vector2(5000, 5000)
 const segment_scene = preload("res://Map/MapSegment/MapSegment.tscn")
 
 var segments: Dictionary
@@ -20,11 +20,11 @@ var index = 0:
 
 func _ready() -> void:
 	clip_children = CLIP_CHILDREN_DISABLED
-	var config = MapSegmentConfig.generate_initial(start_surface_type)
+	var config = MapSegmentConfig.generate_initial()
 	append_segment(0, config)
 	extend_if_needed()
 	current_surface = config.surface
-	change_surface(start_surface_type)
+	change_surface(config.surface)
 
 
 func _process(_delta: float) -> void:
@@ -34,7 +34,6 @@ func _process(_delta: float) -> void:
 func update_index():
 	var y = -car.global_position.y
 	var current_index = floor((y + segment_size.y / 2) / segment_size.y)
-	print(current_index)
 	index = current_index
 
 func extend_if_needed():

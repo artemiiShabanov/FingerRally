@@ -21,7 +21,7 @@ texture = SubResource("CompressedTexture2D_6aewd")
 rotation = -1.5708
 
 [node name="MainCamera" type="Camera2D" parent="Car"]
-zoom = Vector2(0.1, 0.1)
+offset = Vector2(0, -500)
 script = ExtResource("4_ps1la")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
@@ -35,11 +35,11 @@ height = 0.5
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Hud" parent="CanvasLayer" node_paths=PackedStringArray("car") instance=ExtResource("6_u2i7p")]
-car = NodePath("../../Car")
-
 [node name="Wind" parent="CanvasLayer" instance=ExtResource("5_6aewd")]
 rotation = -1.5708
+
+[node name="Hud" parent="CanvasLayer" node_paths=PackedStringArray("car") instance=ExtResource("6_u2i7p")]
+car = NodePath("../../Car")
 
 [node name="Map" parent="." node_paths=PackedStringArray("car") instance=ExtResource("6_hh5pf")]
 car = NodePath("../Car")

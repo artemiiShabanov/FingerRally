@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cq4wg2l1jt2ys"]
+
+[ext_resource type="Script" uid="uid://ev8nu3tv4rk8" path="res://Map/MapSegment/Obstacles/obstacles.gd" id="1_fhmbu"]
+
+[node name="Obstacles" type="Node2D"]
+script = ExtResource("1_fhmbu")

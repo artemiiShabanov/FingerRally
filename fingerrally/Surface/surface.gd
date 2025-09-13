@@ -8,7 +8,7 @@ var track_intensity = 0.0
 var track_drift_intensity = 0.0
 var dust_color: Color = Color.WHITE
 
-enum TYPE { ASPHALT, DIRT, SAND, SNOW, GRAVEL }
+enum TYPE { ASPHALT, DIRT, SNOW, SAND, GRAVEL }
 
 static func surface_for_type(type: Surface.TYPE) -> Surface:
 	var s = Surface.new()

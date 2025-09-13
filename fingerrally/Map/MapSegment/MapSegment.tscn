@@ -1,18 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckh7kphbekgjj"]
+[gd_scene load_steps=4 format=3 uid="uid://ckh7kphbekgjj"]
 
 [ext_resource type="Script" uid="uid://do2pwhqxj7ue6" path="res://Map/MapSegment/map_segment.gd" id="1_f0btk"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_f0btk"]
-size = Vector2(1000, 2000)
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f0btk"]
+load_path = "res://.godot/imported/S1.png-83e2d0cd472ffacfa3244d54bcb2a254.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rjw6i"]
+size = Vector2(100, 5000)
 
 [node name="MapSegment" type="Node2D"]
 script = ExtResource("1_f0btk")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="BaseSprite" type="Sprite2D" parent="."]
+texture = SubResource("CompressedTexture2D_f0btk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_f0btk")
+[node name="FenceRight" type="StaticBody2D" parent="."]
+position = Vector2(-1150, 0)
 
-[node name="Polygon2D" type="Polygon2D" parent="Area2D"]
-color = Color(0, 0.270588, 1, 1)
-polygon = PackedVector2Array(-478, -963, 488, -966, 496, 989, -488, 992)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FenceRight"]
+shape = SubResource("RectangleShape2D_rjw6i")
+
+[node name="FenceLeft" type="StaticBody2D" parent="."]
+position = Vector2(1150, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FenceLeft"]
+shape = SubResource("RectangleShape2D_rjw6i")

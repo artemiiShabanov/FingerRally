@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/Wild Horizon.mp3-c08820ca728cce101c1276a6bc83
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0
