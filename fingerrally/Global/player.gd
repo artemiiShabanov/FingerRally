@@ -3,7 +3,7 @@ extends Node
 const MAX_SCORE_KEY = "max_score"
 const PIXEL_IN_METER = 43.0
 const CHECKPOINT_DIFF = PIXEL_IN_METER
-const GEAR_MULTIPLIERS = [0, 1, 2, 3, 4, 5, 6, 7]
+const FAST_MULTIPLIER = 3
 
 signal max_score_updated
 signal score_updated
@@ -12,7 +12,7 @@ var rng = RandomNumberGenerator.new()
 
 var max_score: int
 
-var gear: int
+var is_fast: bool
 var checkpoint: int
 var current_meters: int
 var current_score: int
@@ -24,15 +24,15 @@ func _ready() -> void:
 
 
 func reset():
-	gear = 0
+	is_fast = false
 	checkpoint = 0
 	current_score = 0
 	current_meters = 0
 	score_updated.emit()
 
 
-func set_gear(_gear: int):
-	gear = _gear
+func set_is_fast(_is_fast: int):
+	is_fast = _is_fast
 
 
 func moved(new_y: float):
@@ -60,4 +60,4 @@ func get_meters(pixels: float) -> float:
 
 
 func get_multiplier() -> int:
-	return GEAR_MULTIPLIERS[gear]
+	return FAST_MULTIPLIER if is_fast else 1

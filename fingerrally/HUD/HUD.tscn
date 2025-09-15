@@ -128,6 +128,8 @@ theme_override_constants/margin_top = -50
 [node name="SpeedLabel" type="Label" parent="TopContainer/HBoxContainer/VBoxContainer/MarginContainer2"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.853917, 0.853917, 0.853917, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
 theme_override_fonts/font = ExtResource("5_aa5tu")
 theme_override_font_sizes/font_size = 70
 text = "100"
@@ -143,6 +145,8 @@ layout_mode = 2
 
 [node name="ScoreLabel" type="Label" parent="TopContainer/HBoxContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
 theme_override_fonts/font = ExtResource("5_aa5tu")
 theme_override_font_sizes/font_size = 120
 text = "1000"
@@ -150,6 +154,8 @@ text = "1000"
 [node name="MaxScoreLabel" type="Label" parent="TopContainer/HBoxContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
 theme_override_fonts/font = ExtResource("5_aa5tu")
 theme_override_font_sizes/font_size = 60
 text = "1000

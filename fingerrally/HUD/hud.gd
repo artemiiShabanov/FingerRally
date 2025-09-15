@@ -14,8 +14,6 @@ enum State {
 	PAUSED
 }
 
-const speed_ratio = 10
-
 @onready var speed_label =  $TopContainer/HBoxContainer/VBoxContainer/MarginContainer2/SpeedLabel
 @onready var speed_arrow = $TopContainer/HBoxContainer/VBoxContainer/MarginContainer/SpeedArrow
 @onready var speed_base = $TopContainer/HBoxContainer/VBoxContainer/MarginContainer/SpeedBase
@@ -81,21 +79,16 @@ func reload():
 
 
 func update_speed():
-	var velocity = car.velocity.length()
-	
-	var speed = round(velocity / Player.PIXEL_IN_METER * speed_ratio)
+	var speed = car.speed
 	speed_label.text = str(int(speed))
 	
-	var gear = car.gear
-	var gear_min = car.gear_min_speed[gear]
-	var gear_max = car.gear_max_speed[gear]
-	var ratio = (velocity - gear_min) / (gear_max - gear_min)
-	var gear_limit = lerpf(-90, 90, ratio)
+	var ratio = speed / car.max_speed
+	var gear_limit = lerpf(-88, 88, ratio)
 	gear_limit += rng.randf_range(-2, 2)
 	
 	speed_arrow.rotation_degrees = gear_limit
 	
-	if gear >= car.max_gear:
+	if speed >= car.fast_speed:
 		speed_base_fast.visible = true
 		speed_base.visible = false
 	else:

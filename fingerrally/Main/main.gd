@@ -20,6 +20,10 @@ func _process(_delta: float) -> void:
 			prev_y = pos
 
 
+func _physics_process(_delta: float) -> void:
+	Player.set_is_fast(car.speed > car.fast_speed)
+
+
 func start():
 	prev_y = 0
 	SoundPlayer.start_lasting_sound(SoundPlayer.LASTING_SOUND.MUSIC)
@@ -45,10 +49,10 @@ func _on_car_hitted() -> void:
 	camera.apply_shake()
 
 
-func _on_car_gear_changed(next_gear) -> void:
+#func _on_car_gear_changed(next_gear) -> void:
 	#SoundPlayer.play_once_sound(SoundPlayer.ONCE_SOUND.GEAR_CHANGE)
-	Vibration.vibrate(Vibration.TYPE.GEAR_CHANGE)
-	Player.set_gear(next_gear)
+	#Vibration.vibrate(Vibration.TYPE.GEAR_CHANGE)
+	#Player.set_gear(next_gear)
 
 func _on_car_died() -> void:
 	restart(true)

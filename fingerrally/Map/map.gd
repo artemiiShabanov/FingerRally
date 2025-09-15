@@ -70,16 +70,16 @@ func extend():
 	var key = get_last_segment_key()
 	var last_segment = get_segment(key)
 	if last_segment != null:
-		var index = key + 1
+		var _index = key + 1
 		var config = last_segment.config.generate_next()
-		append_segment(index, config)
+		append_segment(_index, config)
 
 
-func append_segment(index: int, config: MapSegmentConfig):
+func append_segment(_index: int, config: MapSegmentConfig):
 	var segment = generate_segment(config)
-	segments[index] = segment
+	segments[_index] = segment
 	var x = 0
-	var y = -(segment_size.y * index) 
+	var y = -(segment_size.y * _index) 
 	place_segment(segment, x, y)
 
 

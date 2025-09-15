@@ -28,12 +28,21 @@ var base_description: String:
 				return "T" + str(prev_surface) + str(next_surface)
 			_:
 				return ""
-	
+
+var road_description: String:
+	get:
+		match type:
+			TYPE.SURFACE:
+				return "S" + str(surface) + str(template)
+			_:
+				return ""
 
 static func generate_initial(initial_surface: Surface.TYPE = -1) -> MapSegmentConfig:
 	var initial = MapSegmentConfig.new()
-	initial.type = TYPE.SURFACE
-	initial.surface = initial_surface if initial_surface > -1 else random_surface()
+	initial.type = TYPE.TRANSITION
+	initial.prev_surface = Surface.TYPE.DIRT
+	initial.surface = Surface.TYPE.ASPHALT
+	initial.next_surface = initial_surface if initial_surface > -1 else random_surface()
 	setup_static(initial)
 	return initial
 
@@ -74,4 +83,4 @@ static func random_object_intencity() -> float:
 	return rng.randf_range(object_intencity_min, object_intencity_max)
 
 static func random_template() -> float:
-	return rng.randi_range(0, tempaletes_count - 1)
+	return rng.randi_range(1, tempaletes_count)

@@ -14,6 +14,8 @@ script = ExtResource("1_f0btk")
 [node name="BaseSprite" type="Sprite2D" parent="."]
 texture = SubResource("CompressedTexture2D_f0btk")
 
+[node name="RoadSprite" type="Sprite2D" parent="."]
+
 [node name="FenceRight" type="StaticBody2D" parent="."]
 position = Vector2(-1150, 0)
 

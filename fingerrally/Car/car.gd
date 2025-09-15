@@ -11,14 +11,12 @@ const track_scene = preload("res://TireTracks/TireTrack.tscn")
 
 signal hitted
 signal died
-signal gear_changed(gear)
 signal drift_started
 signal drift_finished
 signal engine_on_changed(on)
 
 # nodes
 
-@onready var gear_timer = $"GearTimer"
 @onready var sprite = $Sprite2D
 @onready var l_wheel = $LeftWheel
 @onready var r_wheel = $RightWheel
@@ -37,15 +35,14 @@ signal engine_on_changed(on)
 @export var shadow_offset = 15
 
 @export var wheel_base = 180  # Distance from front to rear wheel
-@export var steering_angle = 20  # Amount that front wheel turns, in degrees
+@export var steering_angle = 25  # Amount that front wheel turns, in degrees
 
-@export var gear_power = [0, 300, 600, 1100, 1500]
-@export var gear_min_speed = [-1, 0, 200, 350, 480]
-@export var gear_max_speed = [0, 370, 560, 785, 1500]
+@export var default_engine_power = 1500
+@export var max_speed = 225.0
+@export var fast_speed = 200
 
 @export var braking = -450
 @export var max_speed_reverse = 250
-@export var gear_change_time = 0.3
 
 @export var max_health = 4
 
@@ -55,10 +52,10 @@ const drag = -0.0015
 const min_speed = 5
 const friction_increase_speed = 200
 const friction_increase_rate = 3
-const max_gear = 4
+const speed_ratio = 10
 
-const dead_angle_from = 00
-const dead_angle_to = 180
+const dead_angle_from = 60
+const dead_angle_to = 120
 const dead_angle_middle = 90
 const return_angle_from = -10
 const return_angle_to = -170
@@ -66,7 +63,6 @@ const return_angle_to = -170
 # context
 
 var surface: Surface
-var gear = 0
 var engine_on = false:
 	set(value):
 		var new_value = value if health > 0 else false
@@ -74,6 +70,10 @@ var engine_on = false:
 			engine_on_changed.emit(new_value)
 		engine_on = new_value
 		smoke.emitting = engine_on
+var speed: int:
+	get:
+		return round(velocity.length() / Player.PIXEL_IN_METER * speed_ratio)
+		
 
 # private
 
@@ -87,8 +87,6 @@ var engine_power:
 	set(value):
 		_engine_power = value
 
-var next_gear = 0
-var is_changing_gear = false
 var drifting = false:
 	set(value):
 		if drifting != value:
@@ -124,10 +122,10 @@ func set_surface(_surface: Surface):
 # inner
 
 func _ready() -> void:
+	engine_power = default_engine_power
 	health = max_health
 	check_health()
 	start_car_vibration()
-	gear_timer.wait_time = gear_change_time
 
 
 func _process(_delta: float) -> void:
@@ -136,7 +134,7 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta):
 	acceleration = Vector2.ZERO
-	check_gear_speed()
+	#check_gear_speed()
 	get_input()
 	apply_friction()
 	calculate_steering(delta)
@@ -237,22 +235,6 @@ func update_wheels():
 	r_tween.tween_property(r_wheel, "rotation", steer_angle, 0.2)
 
 
-func check_gear_speed():
-	if is_changing_gear:
-		return
-	var g_min_speed = gear_min_speed[gear]
-	var g_max_speed = gear_max_speed[gear]
-	if velocity.length() < g_min_speed:
-		next_gear = gear - 1
-	if velocity.length() >= g_max_speed:
-		next_gear = gear + 1
-	if next_gear != gear:
-		is_changing_gear = true
-		gear_changed.emit(next_gear)
-		engine_power = 0
-		gear_timer.start()
-
-
 func apply_friction():
 	if velocity.length() < min_speed:
 		velocity = Vector2.ZERO
@@ -311,18 +293,3 @@ func check_health():
 		_:
 			e_smoke.emitting = true
 			e_smoke.amount = 30
-
-
-func _on_gear_timer_timeout() -> void:
-	check_gear()
-
-
-func check_gear():
-	if next_gear != gear:
-		gear = next_gear
-		check_engine()
-		is_changing_gear = false
-
-
-func check_engine():
-	engine_power = gear_power[gear]
