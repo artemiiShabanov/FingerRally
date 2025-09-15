@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://de6nt13r0v7eg"]
+
+[ext_resource type="Texture2D" uid="uid://bi2fpws7moke6" path="res://Resourses/Assets/Maps/Stone1.png" id="1_ai64v"]
+[ext_resource type="Script" uid="uid://ctvq5o7y4swkq" path="res://Map/MapSegment/Obstacles/Unbreakable/stone.gd" id="1_clpu1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_clpu1"]
+size = Vector2(95, 95)
+
+[node name="Stone" type="StaticBody2D"]
+z_index = 1
+collision_layer = 2
+script = ExtResource("1_clpu1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4.5, -5)
+shape = SubResource("RectangleShape2D_clpu1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ai64v")

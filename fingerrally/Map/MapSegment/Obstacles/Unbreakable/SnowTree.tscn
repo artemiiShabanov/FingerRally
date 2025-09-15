@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cv4ahob14xpm6"]
+
+[ext_resource type="Script" uid="uid://copvy43yfhqdm" path="res://Map/MapSegment/Obstacles/Unbreakable/snow_tree.gd" id="1_0gyow"]
+[ext_resource type="Texture2D" uid="uid://dddpnsur6vs38" path="res://Resourses/Assets/ctree1_s.png" id="1_1a33q"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7mk0c"]
+radius = 28.4429
+
+[node name="SnowTree" type="StaticBody2D"]
+collision_layer = 2
+script = ExtResource("1_0gyow")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 5
+texture = ExtResource("1_1a33q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7mk0c")

@@ -49,8 +49,8 @@ func finish():
 
 func save_score_if_needed():
 	if current_score > max_score:
-		Storage.set_value(MAX_SCORE_KEY, max_score)
 		max_score = current_score
+		Storage.set_value(MAX_SCORE_KEY, max_score)
 		max_score_updated.emit()
 		Storage.save_to_cache()
 

@@ -24,6 +24,7 @@ signal engine_on_changed(on)
 @onready var e_smoke = $EngineSmoke
 @onready var explosion = $Explosion
 @onready var dusts = [$Dust, $Dust2]
+@onready var invincibility_timer = $InvincibilityTimer
 
 @onready var fl = $FL
 @onready var fr = $FR
@@ -33,12 +34,14 @@ signal engine_on_changed(on)
 # car setup
 
 @export var shadow_offset = 15
+@export var invincibility_time = 3
 
 @export var wheel_base = 180  # Distance from front to rear wheel
 @export var steering_angle = 25  # Amount that front wheel turns, in degrees
 
 @export var default_engine_power = 1500
 @export var max_speed = 225.0
+@export var hit_min_speed = 100.0
 @export var fast_speed = 200
 
 @export var braking = -450
@@ -63,6 +66,7 @@ const return_angle_to = -170
 # context
 
 var surface: Surface
+var is_invincible = false
 var engine_on = false:
 	set(value):
 		var new_value = value if health > 0 else false
@@ -122,6 +126,7 @@ func set_surface(_surface: Surface):
 # inner
 
 func _ready() -> void:
+	invincibility_timer.wait_time = invincibility_time
 	engine_power = default_engine_power
 	health = max_health
 	check_health()
@@ -134,13 +139,25 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta):
 	acceleration = Vector2.ZERO
-	#check_gear_speed()
 	get_input()
 	apply_friction()
 	calculate_steering(delta)
 	velocity += acceleration * delta
-	move_and_slide()
+	handle_collision(move_and_collide(velocity * delta))
 
+func handle_collision(collision: KinematicCollision2D):
+	print(speed)
+	if collision != null:
+		var c = collision.get_collider() as CollisionObject2D
+		if c != null:
+			if c.collision_layer == 2 and speed >= hit_min_speed:
+				if is_invincible:
+					return
+				apply_hit()
+				start_invincibility()
+			if c.collision_layer == 4:
+				if c.has_method("hit"):
+					c.hit()
 
 func get_input():
 	var p = engine_power
@@ -272,6 +289,9 @@ func apply_hit():
 	hitted.emit()
 	health -= 1
 
+func start_invincibility():
+	is_invincible = true
+	invincibility_timer.start()
 
 func check_health():
 	var health_1 = max_health - 1
@@ -293,3 +313,7 @@ func check_health():
 		_:
 			e_smoke.emitting = true
 			e_smoke.amount = 30
+
+
+func _on_invincibility_timer_timeout() -> void:
+	is_invincible = false

@@ -91,7 +91,6 @@ func generate_segment(config: MapSegmentConfig) -> Node2D:
 
 func place_segment(segment: Node2D, x: float, y: float):
 	add_child(segment)
-	print(get_children())
 	segment.global_position = Vector2(x, y)
 
 

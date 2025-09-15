@@ -2,10 +2,24 @@ extends Node2D
 
 class_name MapSegment
 
+const size = Vector2(2200, 5000)
+const base_point = Vector2(1050, 2500)
+const grid_y = 30
+const grid_x = 15
+const object_offset = 30
+const breakables_ratio = 0.3
+
+const snow_tree_scene = preload("res://Map/MapSegment/Obstacles/Unbreakable/SnowTree.tscn")
+const tree_scene = preload("res://Map/MapSegment/Obstacles/Unbreakable/Tree.tscn")
+const stone_scene = preload("res://Map/MapSegment/Obstacles/Unbreakable/Stone.tscn")
+const round_stone_scene = preload("res://Map/MapSegment/Obstacles/Unbreakable/RoundStone.tscn")
+const breakable_scene = preload("res://Map/MapSegment/Obstacles/Breakable/Breakable.tscn")
+
 @onready var base_sprite = $BaseSprite
 @onready var road_sprite = $RoadSprite
 
 var config: MapSegmentConfig
+var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,10 +27,75 @@ func _ready() -> void:
 		base_sprite.texture = base_sprites[config.base_description]
 	if road_sprites.has(config.road_description):
 		road_sprite.texture = road_sprites[config.road_description]
+	else:
+		print(config.road_description)
+	fill_objects()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func fill_objects():
+	for i in range(grid_x):
+		for j in range(grid_y):
+			if rng.randf() < config.object_intencity:
+				var pos = Vector2(size.x / grid_x * i, size.y / grid_y * j) - base_point
+				var offset = Vector2(rng.randf_range(-object_offset, object_offset), rng.randf_range(-object_offset, object_offset))
+				if !road_sprite.is_pixel_opaque(pos):
+					var node = generate_unbreakable()
+					add_child(node)
+					node.position = pos + offset
+
+
+func generate_unbreakable() -> Node2D:
+	match config.surface:
+		Surface.TYPE.ASPHALT:
+			return Node2D.new()
+		Surface.TYPE.DIRT:
+			var i = rng.randi_range(1, 3)
+			var sprite = unbreakable_sprites["D" + str(i)]
+			if sprite != null:
+				var random_scale = rng.randf_range(1.0, 2.0)
+				var node = tree_scene.instantiate()
+				node.texture = sprite
+				node.scale = Vector2(random_scale, random_scale)
+				return node
+			else:
+				return Node2D.new()
+		Surface.TYPE.SNOW:
+			var i = rng.randi_range(1, 3)
+			var sprite = unbreakable_sprites["S" + str(i)]
+			if sprite != null:
+				var random_scale = rng.randf_range(1.0, 2.0)
+				var node = snow_tree_scene.instantiate()
+				node.texture = sprite
+				node.scale = Vector2(random_scale, random_scale)
+				return node
+			else:
+				return Node2D.new()
+		Surface.TYPE.SAND:
+			var i = rng.randi_range(1, 3)
+			var sprite = unbreakable_sprites["Sa" + str(i)]
+			if sprite != null:
+				var scale = rng.randf_range(0.6, 1.5)
+				var node = stone_scene.instantiate()
+				node.texture = sprite
+				node.scale = Vector2(scale, scale)
+				return node
+			else:
+				return Node2D.new()
+		Surface.TYPE.GRAVEL:
+			var i = rng.randi_range(1, 3)
+			var sprite = unbreakable_sprites["G" + str(i)]
+			if sprite != null:
+				var random_scale = rng.randf_range(0.6, 1)
+				var random_rotation = rng.randf_range(0, 360)
+				var node = round_stone_scene.instantiate()
+				node.texture = sprite
+				node.scale = Vector2(random_scale, random_scale)
+				node.rotation_degrees = random_rotation
+				return node
+			else:
+				return Node2D.new()
+		_:
+				return Node2D.new()
+
 
 const base_sprites = {
 	"S1": preload("res://Resourses/Assets/Maps/S1.png"),
@@ -82,4 +161,19 @@ const road_sprites = {
 	"S48": preload("res://Resourses/Assets/Maps/S48.png"),
 	"S49": preload("res://Resourses/Assets/Maps/S49.png"),
 	"S410": preload("res://Resourses/Assets/Maps/S410.png"),
+}
+
+const unbreakable_sprites = {
+	"D1": preload("res://Resourses/Assets/Maps/T1.png"),
+	"D2": preload("res://Resourses/Assets/Maps/T2.png"),
+	"D3": preload("res://Resourses/Assets/Maps/T3.png"),
+	"S1": preload("res://Resourses/Assets/Maps/ST1.png"),
+	"S2": preload("res://Resourses/Assets/Maps/ST2.png"),
+	"S3": preload("res://Resourses/Assets/Maps/ST3.png"),
+	"Sa1": preload("res://Resourses/Assets/Maps/Stone1.png"),
+	"Sa2": preload("res://Resourses/Assets/Maps/Stone2.png"),
+	"Sa3": preload("res://Resourses/Assets/Maps/Stone3.png"),
+	"G1": preload("res://Resourses/Assets/Maps/RS1.png"),
+	"G2": preload("res://Resourses/Assets/Maps/RS2.png"),
+	"G3": preload("res://Resourses/Assets/Maps/RS3.png"),
 }
