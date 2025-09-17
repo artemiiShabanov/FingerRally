@@ -42,6 +42,9 @@ func moved(new_y: float):
 	score_updated.emit()
 	checkpoint = new_y
 
+func add(value):
+	current_score += value
+	score_updated.emit()
 
 func finish():
 	save_score_if_needed()

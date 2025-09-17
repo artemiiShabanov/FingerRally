@@ -8,12 +8,16 @@ const grid_y = 30
 const grid_x = 15
 const object_offset = 30
 const breakables_ratio = 0.3
+const sign_ratio = 0.1
 
 const snow_tree_scene = preload("res://Map/MapSegment/Obstacles/Unbreakable/SnowTree.tscn")
 const tree_scene = preload("res://Map/MapSegment/Obstacles/Unbreakable/Tree.tscn")
 const stone_scene = preload("res://Map/MapSegment/Obstacles/Unbreakable/Stone.tscn")
 const round_stone_scene = preload("res://Map/MapSegment/Obstacles/Unbreakable/RoundStone.tscn")
-const breakable_scene = preload("res://Map/MapSegment/Obstacles/Breakable/Breakable.tscn")
+const sign_scene = preload("res://Map/MapSegment/Obstacles/Breakable/Sign.tscn")
+const bush_scene = preload("res://Map/MapSegment/Obstacles/Breakable/Bush.tscn")
+const cactus_scene = preload("res://Map/MapSegment/Obstacles/Breakable/Cactus.tscn")
+const snowman_scene = preload("res://Map/MapSegment/Obstacles/Breakable/Snowman.tscn")
 
 @onready var base_sprite = $BaseSprite
 @onready var road_sprite = $RoadSprite
@@ -38,9 +42,44 @@ func fill_objects():
 				var pos = Vector2(size.x / grid_x * i, size.y / grid_y * j) - base_point
 				var offset = Vector2(rng.randf_range(-object_offset, object_offset), rng.randf_range(-object_offset, object_offset))
 				if !road_sprite.is_pixel_opaque(pos):
-					var node = generate_unbreakable()
+					var brakable = rng.randf() < breakables_ratio
+					var node = generate_breakable() if brakable else generate_unbreakable()
 					add_child(node)
 					node.position = pos + offset
+
+func generate_breakable() -> Node2D:
+	var is_sign = rng.randf() < sign_ratio
+	if is_sign:
+		return generate_sign()
+	match config.surface:
+		Surface.TYPE.ASPHALT:
+			return Node2D.new()
+		Surface.TYPE.DIRT:
+			var type = rng.randi_range(1, 3)
+			var node = bush_scene.instantiate()
+			node.type = type
+			return node
+		Surface.TYPE.SNOW:
+			var reversed = rng.randf() > 0.5
+			var node = snowman_scene.instantiate()
+			node.reversed = reversed
+			return node
+		Surface.TYPE.SAND:
+			var reversed = rng.randf() > 0.5
+			var node = cactus_scene.instantiate()
+			node.reversed = reversed
+			return node
+		Surface.TYPE.GRAVEL:
+			return Node2D.new()
+		_:
+			return Node2D.new()
+
+
+func generate_sign() -> Node2D:
+	var reversed = rng.randf() > 0.5
+	var node = sign_scene.instantiate()
+	node.reversed = reversed
+	return node
 
 
 func generate_unbreakable() -> Node2D:
@@ -73,10 +112,10 @@ func generate_unbreakable() -> Node2D:
 			var i = rng.randi_range(1, 3)
 			var sprite = unbreakable_sprites["Sa" + str(i)]
 			if sprite != null:
-				var scale = rng.randf_range(0.6, 1.5)
+				var random_scale = rng.randf_range(0.6, 1.5)
 				var node = stone_scene.instantiate()
 				node.texture = sprite
-				node.scale = Vector2(scale, scale)
+				node.scale = Vector2(random_scale, random_scale)
 				return node
 			else:
 				return Node2D.new()

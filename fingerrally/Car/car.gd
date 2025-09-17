@@ -13,6 +13,7 @@ signal hitted
 signal died
 signal drift_started
 signal drift_finished
+signal light_hitted
 signal engine_on_changed(on)
 
 # nodes
@@ -158,6 +159,7 @@ func handle_collision(collision: KinematicCollision2D):
 			if c.collision_layer == 4:
 				if c.has_method("hit"):
 					c.hit()
+				light_hitted.emit()
 
 func get_input():
 	var p = engine_power

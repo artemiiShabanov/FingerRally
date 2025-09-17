@@ -49,6 +49,7 @@ car = NodePath("../Car")
 [connection signal="drift_started" from="Car" to="." method="_on_car_drift_started"]
 [connection signal="engine_on_changed" from="Car" to="." method="_on_car_engine_on_changed"]
 [connection signal="hitted" from="Car" to="." method="_on_car_hitted"]
+[connection signal="light_hitted" from="Car" to="." method="_on_car_light_hitted"]
 [connection signal="counted_down" from="CanvasLayer/Hud" to="." method="_on_hud_counted_down"]
 [connection signal="pause" from="CanvasLayer/Hud" to="." method="_on_hud_pause"]
 [connection signal="restart" from="CanvasLayer/Hud" to="." method="_on_hud_restart"]

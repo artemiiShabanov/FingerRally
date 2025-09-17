@@ -1,0 +1,94 @@
+[gd_scene load_steps=17 format=3 uid="uid://bd3alaly2u2vp"]
+
+[ext_resource type="Script" uid="uid://cyvp0b84xamb4" path="res://Map/MapSegment/Obstacles/Breakable/bush.gd" id="1_6mcym"]
+[ext_resource type="Texture2D" uid="uid://cc88yg5fkv1ha" path="res://Resourses/Assets/Maps/bush1.png" id="2_ixa4u"]
+[ext_resource type="Texture2D" uid="uid://25xd7c86sb3m" path="res://Resourses/Assets/Maps/bush2.png" id="3_fx1vd"]
+[ext_resource type="Texture2D" uid="uid://dm5h3jmnh5l2t" path="res://Resourses/Assets/Maps/bush3.png" id="4_g5yvs"]
+[ext_resource type="Texture2D" uid="uid://wx24lu0r8fav" path="res://Resourses/Assets/Maps/bush_1.png" id="5_peaeq"]
+[ext_resource type="Texture2D" uid="uid://dduhl3qxc62fw" path="res://Resourses/Assets/Maps/bush_2.png" id="6_l054n"]
+[ext_resource type="Texture2D" uid="uid://i34gj0s35afm" path="res://Resourses/Assets/Maps/bush_3.png" id="7_vs1wa"]
+[ext_resource type="Texture2D" uid="uid://be6jslh166m41" path="res://Resourses/Assets/Maps/100_1.png" id="8_olc03"]
+[ext_resource type="Texture2D" uid="uid://h07ex5mkis0q" path="res://Resourses/Assets/Maps/100_2.png" id="9_yhhlf"]
+[ext_resource type="Texture2D" uid="uid://b0ucbbcxl4jn6" path="res://Resourses/Assets/Maps/100_3.png" id="10_ktmrq"]
+[ext_resource type="Texture2D" uid="uid://b0velr5nx6nwo" path="res://Resourses/Assets/Maps/100_4.png" id="11_8i2nv"]
+[ext_resource type="Texture2D" uid="uid://b5b6b6ax336rr" path="res://Resourses/Assets/Maps/100_5.png" id="12_n7yq5"]
+[ext_resource type="Texture2D" uid="uid://c01luu4nmi7rn" path="res://Resourses/Assets/Maps/100_6.png" id="13_qgd2r"]
+[ext_resource type="Texture2D" uid="uid://c0nnj72w4m8t6" path="res://Resourses/Assets/Maps/100_7.png" id="14_snd0l"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lhf3x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ixa4u")
+}],
+"loop": true,
+"name": &"b1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_fx1vd")
+}],
+"loop": true,
+"name": &"b2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_g5yvs")
+}],
+"loop": true,
+"name": &"b3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_peaeq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_l054n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_vs1wa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_olc03")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_yhhlf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ktmrq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_8i2nv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_n7yq5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_qgd2r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_snd0l")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kgtno"]
+radius = 19.0
+
+[node name="Bush" type="StaticBody2D"]
+z_index = 5
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_6mcym")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_lhf3x")
+animation = &"hit"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kgtno")

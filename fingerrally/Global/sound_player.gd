@@ -3,13 +3,15 @@ extends Node
 enum ONCE_SOUND {
 	COUNTDOWN,
 	GEAR_CHANGE,
-	HIT
+	HIT,
+	LIGHT_HIT
 }
 
 var once_sounds = {
 	ONCE_SOUND.COUNTDOWN: preload("res://Resourses/Sounds/321.mp3"),
 	ONCE_SOUND.GEAR_CHANGE: preload("res://Resourses/Sounds/gear.mp3"),
 	ONCE_SOUND.HIT: preload("res://Resourses/Sounds/hit.mp3"),
+	ONCE_SOUND.LIGHT_HIT: preload("res://Resourses/Sounds/light_hit.mp3"),
 }
 
 enum LASTING_SOUND {

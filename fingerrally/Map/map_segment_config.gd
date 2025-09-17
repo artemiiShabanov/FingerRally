@@ -39,7 +39,7 @@ static func generate_initial() -> MapSegmentConfig:
 	var initial = MapSegmentConfig.new()
 	initial.type = TYPE.TRANSITION
 	initial.surface = Surface.TYPE.ASPHALT
-	initial.next_surface = Surface.TYPE.GRAVEL
+	initial.next_surface = random_surface()
 	initial.prev_surface = random_surface_exluding(initial.next_surface)
 	setup_static(initial)
 	return initial
@@ -83,8 +83,8 @@ static func setup_static(config: MapSegmentConfig):
 	config.object_intencity = random_object_intencity(config.surface)
 	config.template = random_template()
 
-static func random_object_intencity(surface: Surface.TYPE) -> float:
-	match surface:
+static func random_object_intencity(_surface: Surface.TYPE) -> float:
+	match _surface:
 		Surface.TYPE.ASPHALT:
 			return 0
 		Surface.TYPE.DIRT:

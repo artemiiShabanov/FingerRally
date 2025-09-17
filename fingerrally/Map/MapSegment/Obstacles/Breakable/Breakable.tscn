@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bjr2j0j1dxwsc"]
+[gd_scene load_steps=2 format=3 uid="uid://dxs7seuolovlq"]
 
-[ext_resource type="Script" uid="uid://qx45bk8nnyt" path="res://Map/MapSegment/Obstacles/Breakable/breakable.gd" id="1_gdw22"]
+[sub_resource type="GDScript" id="GDScript_xwgvl"]
+script/source = "extends Node2D
+"
 
 [node name="Breakable" type="Node2D"]
-script = ExtResource("1_gdw22")
+script = SubResource("GDScript_xwgvl")

@@ -21,8 +21,8 @@ height = 166.0
 
 [node name="Car" type="CharacterBody2D"]
 position = Vector2(1, 0)
-collision_layer = 3
-collision_mask = 3
+collision_layer = 7
+collision_mask = 7
 script = ExtResource("1_v636r")
 
 [node name="Dust2" parent="." instance=ExtResource("8_dc25y")]
@@ -80,6 +80,7 @@ position = Vector2(45, -37)
 position = Vector2(45, 37)
 
 [node name="Smoke" parent="." instance=ExtResource("6_plnjs")]
+z_index = 1
 position = Vector2(-96, 22)
 
 [node name="Explosion" parent="." instance=ExtResource("7_jcsow")]

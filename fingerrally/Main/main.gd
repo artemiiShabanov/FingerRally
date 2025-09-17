@@ -94,3 +94,9 @@ func _on_hud_start_pressed() -> void:
 
 	#SoundPlayer.stop_surface_sound(surface_type)
 	#SoundPlayer.start_surface_sound(new_type)
+
+
+
+func _on_car_light_hitted() -> void:
+	Player.add(100)
+	SoundPlayer.play_once_sound(SoundPlayer.ONCE_SOUND.LIGHT_HIT)
