@@ -97,6 +97,5 @@ func place_segment(segment: Node2D, x: float, y: float):
 func change_surface(new_type: Surface.TYPE):
 	on_surface_changed.emit(current_surface, new_type)
 	current_surface = new_type
-	print(new_type)
 	var surface = Surface.surface_for_type(new_type)
 	car.set_surface(surface)

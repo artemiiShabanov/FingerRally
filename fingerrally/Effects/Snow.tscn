@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bowiysxewebif"]
+
+[sub_resource type="Curve" id="Curve_vex82"]
+_limits = [0.0, 10.0, 0.0, 1.0]
+_data = [Vector2(0, 10), 0.0, 0.0, 0, 0, Vector2(1e-05, 10), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_c2t53"]
+curve = SubResource("Curve_vex82")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gljtd"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2500, 2500, 1)
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -31.03
+radial_accel_max = 43.68
+scale_curve = SubResource("CurveTexture_c2t53")
+
+[node name="Snow" type="GPUParticles2D"]
+amount = 1000
+lifetime = 20.0
+preprocess = 2.0
+randomness = 0.39
+visibility_rect = Rect2(-10423.2, -10324, 21071, 20725)
+process_material = SubResource("ParticleProcessMaterial_gljtd")

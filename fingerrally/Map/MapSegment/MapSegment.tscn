@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckh7kphbekgjj"]
+[gd_scene load_steps=6 format=3 uid="uid://ckh7kphbekgjj"]
 
 [ext_resource type="Script" uid="uid://do2pwhqxj7ue6" path="res://Map/MapSegment/map_segment.gd" id="1_f0btk"]
+[ext_resource type="PackedScene" uid="uid://bowiysxewebif" path="res://Effects/Snow.tscn" id="2_rjw6i"]
+[ext_resource type="PackedScene" uid="uid://b726wo5cb2uvv" path="res://Effects/Rain.tscn" id="3_ams81"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f0btk"]
 load_path = "res://.godot/imported/S1.png-83e2d0cd472ffacfa3244d54bcb2a254.ctex"
@@ -27,3 +29,9 @@ position = Vector2(1150, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FenceLeft"]
 shape = SubResource("RectangleShape2D_rjw6i")
+
+[node name="Snow" parent="." instance=ExtResource("2_rjw6i")]
+emitting = false
+amount = 500
+
+[node name="Rain" parent="." instance=ExtResource("3_ams81")]

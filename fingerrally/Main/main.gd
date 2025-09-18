@@ -9,7 +9,6 @@ var prev_y = 0
 
 func _ready() -> void:
 	SoundPlayer.start_lasting_sound(SoundPlayer.LASTING_SOUND.AMBIENT)
-	#car.set_surface(Surface.surface_for_type(Surface.TYPE.ASPHALT))
 
 
 func _process(_delta: float) -> void:
@@ -91,10 +90,6 @@ func _on_hud_counted_down() -> void:
 
 func _on_hud_start_pressed() -> void:
 	hud.start_countdown()
-
-	#SoundPlayer.stop_surface_sound(surface_type)
-	#SoundPlayer.start_surface_sound(new_type)
-
 
 
 func _on_car_light_hitted() -> void:

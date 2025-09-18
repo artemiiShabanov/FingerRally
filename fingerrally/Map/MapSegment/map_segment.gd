@@ -4,6 +4,7 @@ class_name MapSegment
 
 const size = Vector2(2200, 5000)
 const base_point = Vector2(1050, 2500)
+const road_offset = 1460
 const grid_y = 30
 const grid_x = 15
 const object_offset = 30
@@ -21,9 +22,13 @@ const snowman_scene = preload("res://Map/MapSegment/Obstacles/Breakable/Snowman.
 
 @onready var base_sprite = $BaseSprite
 @onready var road_sprite = $RoadSprite
+@onready var snow_effect = $Snow
+@onready var rain_effect = $Rain
 
 var config: MapSegmentConfig
 var rng = RandomNumberGenerator.new()
+
+var thread: Thread
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,19 +36,41 @@ func _ready() -> void:
 		base_sprite.texture = base_sprites[config.base_description]
 	if road_sprites.has(config.road_description):
 		road_sprite.texture = road_sprites[config.road_description]
-	fill_objects()
+	snow_effect.emitting = config.surface == Surface.TYPE.SNOW
+	rain_effect.emitting = config.surface == Surface.TYPE.GRAVEL
+	thread = Thread.new()
+	thread.start(fill_objects.bind(road_sprite.texture))
 
-func fill_objects():
+func _exit_tree():
+	thread.wait_to_finish()
+
+func fill_objects(road_texture: CompressedTexture2D):
+	var image: Image
+	if road_texture != null:
+		image = road_texture.get_image()
+	else:
+		image = null
 	for i in range(grid_x):
 		for j in range(grid_y):
 			if rng.randf() < config.object_intencity:
-				var pos = Vector2(size.x / grid_x * i, size.y / grid_y * j) - base_point
+				var x = size.x / grid_x * i
+				var y = size.y / grid_y * j
+				var pos = Vector2(x, y) - base_point
 				var offset = Vector2(rng.randf_range(-object_offset, object_offset), rng.randf_range(-object_offset, object_offset))
-				if !road_sprite.is_pixel_opaque(pos):
+				if MapSegment.is_pixel_transparent(image, x + road_offset, y):
 					var brakable = rng.randf() < breakables_ratio
 					var node = generate_breakable() if brakable else generate_unbreakable()
-					add_child(node)
 					node.position = pos + offset
+					_add_child.call_deferred(node)
+
+func _add_child(node_to_add: Node2D):
+	add_child(node_to_add)
+
+static func is_pixel_transparent(image: Image, x: int, y: int) -> bool:
+	if image == null:
+		return true
+	else:
+		return image.get_pixel(x, y).a == 0.0
 
 func generate_breakable() -> Node2D:
 	var is_sign = rng.randf() < sign_ratio

@@ -115,7 +115,6 @@ func start():
 	engine_on = true
 
 func set_surface(_surface: Surface):
-	print(_surface)
 	drifting = false
 	stop_track()
 	surface = _surface

@@ -40,7 +40,7 @@ func moved(new_y: float):
 	current_meters += get_meters(passed)
 	current_score += get_meters(passed) * get_multiplier()
 	score_updated.emit()
-	checkpoint = new_y
+	checkpoint = round(new_y)
 
 func add(value):
 	current_score += value
@@ -58,8 +58,8 @@ func save_score_if_needed():
 		Storage.save_to_cache()
 
 
-func get_meters(pixels: float) -> float:
-	return pixels / PIXEL_IN_METER
+func get_meters(pixels: int) -> int:
+	return round(pixels / PIXEL_IN_METER)
 
 
 func get_multiplier() -> int:

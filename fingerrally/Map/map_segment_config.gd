@@ -90,13 +90,13 @@ static func random_object_intencity(_surface: Surface.TYPE) -> float:
 		Surface.TYPE.DIRT:
 			return rng.randf_range(0.6, 0.8)
 		Surface.TYPE.SNOW:
-			return rng.randf_range(0.4, 0.7)
+			return rng.randf_range(0.4, 0.6)
 		Surface.TYPE.SAND:
-			return rng.randf_range(0.2, 0.5)
+			return rng.randf_range(0.3, 0.6)
 		Surface.TYPE.GRAVEL:
 			return rng.randf_range(0.2, 0.3)
 		_:
 			return 0
 
-static func random_template() -> float:
+static func random_template() -> int:
 	return rng.randi_range(1, tempaletes_count)
