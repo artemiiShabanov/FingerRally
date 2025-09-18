@@ -14,31 +14,43 @@ static func surface_for_type(type: Surface.TYPE) -> Surface:
 	var s = Surface.new()
 	match type:
 		Surface.TYPE.ASPHALT:
-			s.slip_speed = 400
-			s.traction_fast = 0.9
+			s.slip_speed = 800
+			s.traction_fast = 1.0
 			s.traction_slow = 1.0
-			s.friction = -0.1
-			s.track_intensity = 0.05
+			s.friction = -0.05
+			s.track_intensity = 0.01
 			s.track_drift_intensity = 0.1
 			s.dust_color = Color.DIM_GRAY
 		Surface.TYPE.DIRT:
 			s.slip_speed = 400
-			s.traction_fast = 0.5
+			s.traction_fast = 0.7
+			s.traction_slow = 0.7
+			s.friction = -0.3
+			s.track_intensity = 0.2
+			s.track_drift_intensity = 0.4
+			s.dust_color = Color.SADDLE_BROWN
+		Surface.TYPE.SAND:
+			s.slip_speed = 500
+			s.traction_fast = 0.7
 			s.traction_slow = 0.7
 			s.friction = -0.5
-		Surface.TYPE.SAND:
-			s.slip_speed = 400
-			s.traction_fast = 0.5
-			s.traction_slow = 0.3
-			s.friction = -0.9
+			s.track_intensity = 0.05
+			s.track_drift_intensity = 0.1
+			s.dust_color = Color.BISQUE
 		Surface.TYPE.SNOW:
-			s.slip_speed = 400
-			s.traction_fast = 0.7
-			s.traction_slow = 0.2
-			s.friction = -0.5
+			s.slip_speed = 200
+			s.traction_fast = 0.1
+			s.traction_slow = 0.1
+			s.friction = -0.1
+			s.track_intensity = 0.05
+			s.track_drift_intensity = 0.1
+			s.dust_color = Color.WHITE_SMOKE
 		Surface.TYPE.GRAVEL:
 			s.slip_speed = 400
-			s.traction_fast = 0.5
-			s.traction_slow = 0.5
+			s.traction_fast = 1.0
+			s.traction_slow = 1.0
 			s.friction = -0.6
+			s.track_intensity = 0.02
+			s.track_drift_intensity = 0.1
+			s.dust_color = Color.BLACK
 	return s

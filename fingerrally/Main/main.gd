@@ -9,7 +9,7 @@ var prev_y = 0
 
 func _ready() -> void:
 	SoundPlayer.start_lasting_sound(SoundPlayer.LASTING_SOUND.AMBIENT)
-	car.set_surface(Surface.surface_for_type(Surface.TYPE.ASPHALT))
+	#car.set_surface(Surface.surface_for_type(Surface.TYPE.ASPHALT))
 
 
 func _process(_delta: float) -> void:

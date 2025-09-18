@@ -3,7 +3,6 @@ extends Node2D
 signal on_surface_changed(prev, now)
 
 @export var car: Car
-#@export var start_surface_type: Surface.TYPE
 
 const segment_pool_size = 3
 const segment_size = Vector2(5000, 5000)
@@ -11,11 +10,12 @@ const segment_scene = preload("res://Map/MapSegment/MapSegment.tscn")
 
 var segments: Dictionary
 var current_surface: Surface.TYPE
-var index = 0:
+var index: int = 0:
 	set(value):
 		if index != value:
 			index = value
 			extend_if_needed()
+			change_surface(segments[index].config.surface)
 
 
 func _ready() -> void:
@@ -97,5 +97,6 @@ func place_segment(segment: Node2D, x: float, y: float):
 func change_surface(new_type: Surface.TYPE):
 	on_surface_changed.emit(current_surface, new_type)
 	current_surface = new_type
+	print(new_type)
 	var surface = Surface.surface_for_type(new_type)
 	car.set_surface(surface)

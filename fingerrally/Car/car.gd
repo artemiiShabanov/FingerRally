@@ -43,7 +43,7 @@ signal engine_on_changed(on)
 @export var default_engine_power = 1500
 @export var max_speed = 225.0
 @export var hit_min_speed = 100.0
-@export var fast_speed = 200
+@export var fast_speed = 180
 
 @export var braking = -450
 @export var max_speed_reverse = 250
@@ -115,6 +115,7 @@ func start():
 	engine_on = true
 
 func set_surface(_surface: Surface):
+	print(_surface)
 	drifting = false
 	stop_track()
 	surface = _surface
@@ -147,7 +148,6 @@ func _physics_process(delta):
 	handle_collision(move_and_collide(velocity * delta))
 
 func handle_collision(collision: KinematicCollision2D):
-	print(speed)
 	if collision != null:
 		var c = collision.get_collider() as CollisionObject2D
 		if c != null:

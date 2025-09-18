@@ -31,8 +31,6 @@ func _ready() -> void:
 		base_sprite.texture = base_sprites[config.base_description]
 	if road_sprites.has(config.road_description):
 		road_sprite.texture = road_sprites[config.road_description]
-	else:
-		print(config.road_description)
 	fill_objects()
 
 func fill_objects():
